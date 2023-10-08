@@ -4,10 +4,16 @@ import io.kvision.*
 import io.kvision.core.*
 import io.kvision.form.check.CheckStyle
 import io.kvision.form.check.checkBox
-import io.kvision.html.*
+import io.kvision.form.formPanel
+import io.kvision.form.text.Text
+import io.kvision.html.InputType
+import io.kvision.html.Span
+import io.kvision.html.button
+import io.kvision.html.span
 import io.kvision.panel.*
 import io.kvision.utils.auto
 import io.kvision.utils.perc
+import io.kvision.utils.pt
 import io.kvision.utils.px
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +26,7 @@ class App : Application() {
 
     override fun start(state: Map<String, Any>) {
         val root = root("kvapp") {
+
             vPanel {
                 width = 100.perc
                 tabPanel {
@@ -30,10 +37,10 @@ class App : Application() {
                     padding = 20.px
                     overflow = Overflow.HIDDEN
                     border = Border(2.px, BorderStyle.SOLID, Color.name(Col.SILVER))
-                    tab("Čuníci", "fas fa-bars", route = "/cunici") {
-                        add(GameTab())
+                    tab("Počítej!", route = "/practice") {
+                        add(PracticeTab())
                     }
-                    tab("Nastavení", "fas fa-edit", route = "/settings") {
+                    tab("Nastavení", route = "/settings") {
                         add(SettingsTab())
                     }
                 }
@@ -57,41 +64,40 @@ fun main() {
     )
 }
 
-class GameTab : SimplePanel() {
+class PracticeTab : SimplePanel() {
     init {
-        this.marginTop = 10.px
+        this.marginTop = 20.px
         this.minHeight = 400.px
-        vPanel(spacing = 3, useWrappers = true) {
+        hPanel(spacing = 3, useWrappers = true) {
             span {
-                content = "A simple label"}
-            span {
-                fontFamily = "Times New Roman"
-                fontSize = 32.px
-                fontStyle = FontStyle.OBLIQUE
-                fontWeight = FontWeight.BOLDER
-                fontVariant = FontVariant.SMALLCAPS
-                textDecoration =
-                    TextDecoration(TextDecorationLine.UNDERLINE,
-                        TextDecorationStyle.DOTTED,
-                        Color.name(Col.RED))
-                content = "A label with custom CSS styling"
+                content = "12 + 3 = "
+                fontSize = 25.pt
+                marginRight = 10.px
             }
-            span {
-                content = "A list:"
+            val formPanel = formPanel<String> {
+                add("Výsledek",
+                    Text(type = InputType.TEXT),
+
+                    validatorMessage = { "Zadávejte pouze čísla" }) {
+                    it.getValue()?.let { "^\\d+$".toRegex().matches(it) }
+                }
             }
-            listTag(ListType.UL,
-                listOf("First list element", "Second list element", "Third list element"))
         }
     }
 }
 
 class SettingsTab : SimplePanel() {
     init {
-        this.marginTop = 10.px
+        this.marginTop = 20.px
         this.minHeight = 400.px
-        vPanel(spacing = 3, useWrappers = true) {
-            span {
-                content = "Zvolte typy příkladů:"
+        vPanel(spacing = 10, useWrappers = true) {
+            hPanel {
+                marginLeft = 10.px
+                marginBottom = 10.px
+                span {
+                    content = "Zvolte typy příkladů:"
+                    fontWeight = FontWeight.BOLDER
+                }
             }
             val checkboxes = mutableListOf(
             checkBox(true, label = "Sčítání do 10") { style = CheckStyle.PRIMARY },
@@ -101,8 +107,12 @@ class SettingsTab : SimplePanel() {
             checkBox(true, label = "Sčítání do 20 s přechodem přes 10") { style = CheckStyle.PRIMARY },
             checkBox(true, label = "Odčítání do 20 s přechodem přes 10") { style = CheckStyle.PRIMARY },
             )
-            button("vybrat vše").onClick { checkboxes.forEach { it.value = true } }
-            button("zrušit vše").onClick { checkboxes.forEach { it.value = false } }
+            hPanel {
+                spacing = 10
+                marginTop = 10.px
+                button("Vybrat vše").onClick { checkboxes.forEach { it.value = true } }
+                button("Zrušit vše").onClick { checkboxes.forEach { it.value = false } }
+            }
         }
     }
 }
