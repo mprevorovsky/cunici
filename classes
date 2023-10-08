@@ -1,0 +1,56 @@
+User
+- id: Int
+- name: String
+- password: String
+- userSettings: UserSettings
+- userScore: Score
++ setActiveExerciseTypes()
++ runExerciseSeries()
+
+
+UserSettings
+- canRetryIncorrectSolution: Boolean
+- activeExerciseTypes: MutableList<ExerciseType>
+- seriesLength: Int
+
+
+Score
+- sessionScore: SolutionCounter
+- totalScore: SolutionCounter
++ loadScore(): Score
++ saveScore()
+
+
+SolutionCounter
+- correctSolutions: Int
+- incorrectSolutions: Int
+
+
+ExerciseType (plugin architecture)
+- name: String
+// any limitations on number ranges
++ generateEquation(): Equation
+
+
+Equation
+- type: ExerciseType.name
+- EquationString: String
+- Solution: Float
+
+
+ExerciseSeries
+- equations: List<Equation>
+- seriesScoreString: String
+- seriesScore: SolutionCounter
+
+
+
+
+
+GlobalSettings
+- correctSolutionCharacter: Char
+- incorrectSolutionCharacter: Char
+
+
+....
+Views

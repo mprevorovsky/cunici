@@ -1,0 +1,19 @@
+A web application for math practice for elementary school kids.
+Should support multiple users (user name displayed on the app screen).
+Provides a range of exercise types (as plugins?), users can set which types they want to currently utilize (checkboxes?).
+The user is presented with a series of *random* calculations (random numbers, conforming to the selected exercise types) and must solve them.
+The size of the series can be user defined.
+If incorrect solution is provided by the user, the user is given 1 chance to correct. (optional feature? boolean...) 
+User should get specific feedback on passed/failed calculations, including correct solutions.
+User receives 1 heart for each correct solution and one pig for each incorrect one.
+Score (hearts/pigs) is kept for each series of calculations, for each session, and grand total for all sessions (persistent database).
+The current score for the series/session(/grand total) is displayed on the app screen.
+
+
+
+MAYBE...
+Could play sounds for each in/correct solution
+Time could be tracked for each calculation, session, grand total -> time-limited solving (simulate test at school); stats to identify most problematic exercise types?
+Various achievements could be unlocked to gamify the application (straight hearts 1,2,3... series, etc.
+Could track dates/time of usage to get usage stats
+Users could select their own characters (sounds) for in/correct answers (from enums?)

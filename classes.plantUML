@@ -1,0 +1,69 @@
+@startuml
+
+skin rose
+
+title Čuníci - Class Diagram
+
+
+class User {
++ id: Int
++ name: String
+- password: String
+- userSettings: UserSettings
++ userScore: Score
++ setActiveExerciseTypes()
++ runExerciseSeries()
+}
+
+class UserSettings {
+- canRetryIncorrectSolution: Boolean
+- activeExerciseTypes: MutableList<ExerciseType>
+- seriesLength: Int
+}
+
+
+class Score {
++ sessionScore: SolutionCounter
++ totalScore: SolutionCounter
++ loadScore(): Score
++ saveScore()
+}
+
+class SolutionCounter {
++ correctSolutions: Int
++ incorrectSolutions: Int
+}
+
+class ExerciseType {
+plugin architecture
+any limitations on number ranges
+- exerciseType: String
++ generateEquation(): Equation
+}
+
+class ExerciseTypes {
++ exerciseTypes: MutableList<ExerciseType>
+}
+
+class Equation {
++ exerciseType: ExerciseType.name
++ EquationString: String
++ Solution: Float
+}
+
+class ExerciseSeries {
++ equations: List<Equation>
++ seriesScoreString: String
++ seriesScore: SolutionCounter
+}
+
+User *-- "1" UserSettings
+User *-- "1" Score
+Score *-- "2" SolutionCounter
+User -- "1" ExerciseSeries
+ExerciseSeries *-- "1..many" Equation
+ExerciseSeries *-- "1" SolutionCounter
+User -- ExerciseTypes
+ExerciseTypes o-- "1..many" ExerciseType
+ExerciseType -- Equation
+@enduml
